@@ -1,0 +1,23 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ 
+   
+  "data": {
+    "values": [
+        {"Country": "alma","GDP per capita": 21482},
+        {"Country": "banan","GDP per capita": 1337},
+        {"Country": "narancs","GDP per capita": 54929}]
+  },
+ 
+  "mark": {
+    "type": "bar",
+    "color": "red"},
+ 
+  "encoding": {
+    "x": {"field": "Country", "type": "nominal"},  
+ 
+    "y": {
+      "field": "GDP per capita",
+      "type": "quantitative"}}
+}
+ 

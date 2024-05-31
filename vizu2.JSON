@@ -1,0 +1,20 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ 
+   
+  "data": {
+    "url": "https://raw.githubusercontent.com/BartalisTibor/BartalisTibor/main/gyumolcs.csv"
+  },
+ 
+  "mark": {
+    "type": "bar",
+    "color": "red"},
+ 
+  "encoding": {
+    "x": {"field": "Gyumolcs", "type": "nominal"},  
+ 
+    "y": {
+      "field": "Iz",
+      "type": "quantitative"}}
+}
+ 
