@@ -1,0 +1,138 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+      "font": "Circular Std",
+      "text": "Cryptocurrency Owned, Usage by Country",
+      "subtitle": ["Share of respondents who indicated they either owned or used cryptocurrencies", "Source: Statista Data", ""],
+      "anchor": "start",
+      "fontSize": 16,
+      "subtitleFont": "Arial",
+      "subtitleFontWeight": "lighter"
+    },
+    "background": "rgba(0,0,0,0)",
+    "width": 800,
+    "height": 500,
+    "config": {
+      "font": "Circular Std",
+      "mark": {"line": {"interpolate": "monotone"}},
+      "view": {"stroke": "transparent", "width": 400, "height": 300},
+      "title": {"anchor": "start", "subtitleColor": "#676A86"},
+      "range": {
+        "category": [
+          "#36B7B4",
+          "#E6224B",
+          "#F4C245",
+          "#0063AF",
+          "#00A767",
+          "#179FDB",
+          "#EB5C2E"
+        ],
+        "diverging": ["#E6224B", "#E54753", "#C9C9C9", "#179FDB", "#122B39"],
+        "heatmap": ["#C9C9C9", "#179FDB", "#0063AF", "#122B39"],
+        "ordinal": ["#00A767", "#36B7B4", "#179FDB", "#0063AF", "#243B5A"]
+      },
+      "legend": {
+        "orient": "none",
+        "direction": "horizontal",
+        "legendX": 0,
+        "legendY": -15,
+        "titleOrient": "left",
+        "titleColor": "#676A86",
+        "titleOpacity": 0.9
+      },
+      "axisX": {
+        "domainColor": "#676A86",
+        "domainOpacity": 0.5,
+        "grid": false,
+        "labelAngle": -90,
+        "labelColor": "#676A86",
+        "labelOpacity": 0.9,
+        "orient": "bottom",
+        "tickColor": "#676A86",
+        "tickCount": 10,
+        "tickOpacity": 0.5,
+        "titleAlign": "center",
+        "titleAnchor": "middle",
+        "titleColor": "#676A86",
+        "titleFontSize": 12,
+        "titleOpacity": 0.8,
+        "titleY": -15
+      },
+      "axisY": {
+        "domainColor": "#676A86",
+        "domainOpacity": 0.5,
+        "gridColor": "#676A86",
+        "gridDash": [1, 5],
+        "gridOpacity": 0.5,
+        "labelColor": "#676A86",
+        "labelOpacity": 0.9,
+        "labelPadding": 5,
+        "tickColor": "#676A86",
+        "tickCount": 8,
+        "tickOpacity": 0.5,
+        "ticks": false,
+        "titleAlign": "left",
+        "titleAngle": 0,
+        "titleBaseline": "bottom",
+        "titleColor": "#676A86",
+        "titleFontSize": 12,
+        "titleOpacity": 0.8,
+        "titleX": 0,
+        "titleY": -7
+      }
+    },
+    "data": {
+      "url": "https://raw.githubusercontent.com/bartalistibor/bartalistibor.github.io/main/orszagok1.csv"
+    },
+    "encoding": {
+      "x": {"field": "country", "sort": "-y", "title": null},
+      "y": {
+        "field": "percentage",
+        "type": "quantitative",
+        "axis": {"format": "%", "title": null}
+      },
+      "opacity": {
+        "condition": [{"test": "datum.country == 'Hungary'", "value": 1}],
+        "value": 1
+      },
+      "order": {"field": "country"},
+      "color": {
+        "field": "percentage",
+        "legend": null,
+        "scale": {
+          "range": [
+            "rgb(111, 181, 219)",
+            "rgb(73, 191, 161)",
+            "rgb(230, 189, 81)",
+            "rgb(235, 61, 75)"
+          ],
+          "domain": [0.06, 0.47]
+        },
+        "type": "quantitative"
+      },
+      "tooltip": [{"field": "country"}, {"field": "percentage", "type": "quantitative"}]
+    },
+    "layer": [
+      {
+        "mark": {
+          "type": "text",
+          "color": "black",
+          "dy": -12,
+          "fontSize": 16,
+          "fontWeight": "bold",
+          "text": {"expr": "datum.country == 'Romania' ? 'Romania' : ''"}
+        },
+        "encoding": {"color": {"value": "black"}}
+      },
+      {
+        "mark": {
+          "type": "bar",
+          "binSpacing": 1,
+          "strokeWidth": {"expr": "datum.country == 'Romania' ? 1.5 : 0"},
+          "stroke": "rgba(0,0,0, 0.6)"
+        }
+      }
+    ],
+    "autosize": {"type": "fit", "contains": "padding", "resize": false}
+  }
+  
