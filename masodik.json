@@ -1,71 +1,93 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "title": {
-      "text": "Market Capitalization Over Time",
-      "subtitle": "Marketcap data",
-      "subtitleFontStyle": "italic",
-      "subtitleFontSize": 10,
-      "anchor": "start",
-      "color": "black"
+      "text": "Cryptocurrency Market Share",
+      "subtitle": ["Percentage distribution of various cryptocurrencies over time", "Source: Provided data"]
     },
-    "width": 600,
-    "height": 400,
-    "data": {
-      "url": "https://raw.githubusercontent.com/bartalistibor/bartalistibor.github.io/main/market-cap.csv",
-      "format": {"type": "csv"}
+    "description": "A line chart showing the percentage distribution of BTC, ETH, USDT, BNB, SOL, and Others over time with tooltips.",
+    "data": { 
+      "url": "https://raw.githubusercontent.com/bartalistibor/bartalistibor.github.io/main/bitcoin-dominance.csv"
     },
+    "transform": [
+      {
+        "fold": ["BTC", "ETH", "USDT", "BNB", "SOL", "Others"],
+        "as": ["category", "value"]
+      },
+      {
+        "window": [
+          {
+            "op": "sum",
+            "field": "value",
+            "as": "total"
+          }
+        ],
+        "frame": [null, null],
+        "groupby": ["DateTime"]
+      },
+      {
+        "calculate": "datum.value / datum.total * 100",
+        "as": "percentage"
+      }
+    ],
     "layer": [
       {
-        "mark": {"type": "area", "tooltip": true},
+        "mark": "line",
         "encoding": {
-          "x": {"field": "Date", "type": "temporal", "axis": {"labelAngle": -45}},
-          "y": {
-            "field": "Marketcap",
-            "type": "quantitative",
-            "axis": {"format": "s", "title": "Marketcap (Trillion)"}
+          "x": {
+            "field": "DateTime", 
+            "type": "temporal", 
+            "title": "Date"
           },
-          "tooltip": [
-            {"field": "Date", "type": "temporal", "title": "Date"},
-            {
-              "field": "Marketcap",
-              "type": "quantitative",
-              "format": ".2s",
-              "title": "Marketcap (Trillion)"
-            }
-          ]
+          "y": {
+            "field": "percentage", 
+            "type": "quantitative", 
+            "title": "Percentage (%)",
+            "axis": {"format": ".1f"}
+          },
+          "color": {
+            "field": "category",
+            "type": "nominal",
+            "title": "Cryptocurrency"
+          }
         }
       },
       {
         "mark": "rule",
         "encoding": {
-          "x": {"field": "Date", "type": "temporal"},
+          "x": {
+            "field": "DateTime", 
+            "type": "temporal"
+          },
           "opacity": {
             "condition": {"value": 0.3, "param": "hover", "empty": false},
             "value": 0
           },
           "tooltip": [
-            {"field": "Date", "type": "temporal", "title": "Date"},
-            {
-              "field": "Marketcap",
-              "type": "quantitative",
-              "title": "Marketcap",
-              "format": ".2s"
-            }
-    
+            {"field": "DateTime", "type": "temporal", "title": "Date"},
+            {"field": "BTC", "type": "quantitative", "title": "BTC (%)", "format": ".2f"},
+            {"field": "ETH", "type": "quantitative", "title": "ETH (%)", "format": ".2f"},
+            {"field": "USDT", "type": "quantitative", "title": "USDT (%)", "format": ".2f"},
+            {"field": "BNB", "type": "quantitative", "title": "BNB (%)", "format": ".2f"},
+            {"field": "SOL", "type": "quantitative", "title": "SOL (%)", "format": ".2f"},
+            {"field": "Others", "type": "quantitative", "title": "OTHERS (%)", "format": ".2f"}
           ]
         },
         "params": [
           {
             "name": "hover",
-            "select": {
-              "type": "point",
-              "on": "mouseover",
-              "nearest": true,
-              "clear": "mouseout"
-            }
+            "select": {"type": "point", "on": "mouseover", "nearest": true, "clear": "mouseout"}
+          }
+        ],
+        "transform": [
+          {
+            "pivot": "category",
+            "value": "percentage",
+            "groupby": ["DateTime"]
           }
         ]
       }
-    ]
+    ],
+    "width": 600,
+    "height": 400
   }
   
